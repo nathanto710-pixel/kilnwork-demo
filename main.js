@@ -90,6 +90,54 @@
     }
   }
 
+  /* hero shader light: flowing ember fog (raw WebGL, no library). Falls back to the CSS beams. */
+  const gc = $('#glow');
+  if (gc && !reduce) {
+    const gl = gc.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: false });
+    if (gl) {
+      const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+      const fs = `precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;
+        float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+        float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+          return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+        float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+        void main(){
+          vec2 uv=gl_FragCoord.xy/r; vec2 q=uv; q.x=(q.x-.5)*r.x/r.y;
+          vec2 w=vec2(fbm(q*1.6+vec2(0.,-t*.07)),fbm(q*1.6+vec2(5.2,t*.05)));
+          float f=fbm(q*2.2+w*1.6+vec2(m.x*.25,-t*.11));
+          float d=length(vec2(q.x*.8,uv.y+.12));
+          float rise=smoothstep(1.05,.0,d);
+          float rays=pow(max(0.,sin(atan(q.x,uv.y+.25)*14.+f*5.+t*.15)),3.)*.35;
+          float v=pow(f,1.6)*rise*1.9+rays*rise*f;
+          vec3 c=mix(vec3(.50,.10,.01),vec3(1.,.50,.20),f)*v;
+          c+=vec3(1.,.82,.62)*pow(v,3.)*.55;
+          gl_FragColor=vec4(c,clamp(v*1.25,0.,1.));
+        }`;
+      const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; };
+      const a = sh(gl.VERTEX_SHADER, vs), b = sh(gl.FRAGMENT_SHADER, fs);
+      const pr = gl.createProgram();
+      if (a && b) { gl.attachShader(pr, a); gl.attachShader(pr, b); gl.linkProgram(pr); }
+      if (a && b && gl.getProgramParameter(pr, gl.LINK_STATUS)) {
+        gl.useProgram(pr);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const uR = gl.getUniformLocation(pr, 'r'), uT = gl.getUniformLocation(pr, 't'), uM = gl.getUniformLocation(pr, 'm');
+        let seen = true, mx = 0, tx = 0;
+        const fit = () => { const k = 0.5; gc.width = Math.max(2, gc.clientWidth * k); gc.height = Math.max(2, gc.clientHeight * k); gl.viewport(0, 0, gc.width, gc.height); };
+        new ResizeObserver(fit).observe(gc); fit();
+        new IntersectionObserver(([e]) => { seen = e.isIntersecting; }).observe(gc);
+        addEventListener('pointermove', (e) => { tx = e.clientX / innerWidth - 0.5; }, { passive: true });
+        gc.closest('.hero').classList.add('has-glow');
+        const frame = (ms) => {
+          if (seen) { mx += (tx - mx) * 0.04; gl.uniform2f(uR, gc.width, gc.height); gl.uniform1f(uT, ms / 1000); gl.uniform2f(uM, mx, 0); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+          requestAnimationFrame(frame);
+        };
+        requestAnimationFrame(frame);
+      }
+    }
+  }
+
   /* hero dust: glowing motes rising from the horizon */
   const cv = $('#dust');
   if (cv && !reduce) {
