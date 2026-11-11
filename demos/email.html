@@ -12,11 +12,15 @@
   .desk__bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.16)}
   .desk__sub{padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
   .desk__sub b{display:block;color:var(--ink);font-weight:500;font-size:15px}
-  .desk iframe{display:block;width:100%;height:640px;border:0;background:#ece6da}
+  .view{height:620px;overflow-y:auto;background:#e9e4d9}
+  .view img{display:block;width:100%;height:auto}
   .phone{flex:none;width:300px;padding:10px;border-radius:44px;background:#1a1a1d;box-shadow:0 0 0 1px rgba(255,255,255,.14),inset 0 0 0 2px #000,0 50px 110px -30px #000;position:relative;margin-top:44px}
   .phone::before{content:"";position:absolute;left:50%;top:20px;width:84px;height:22px;margin-left:-42px;border-radius:999px;background:#000;z-index:2}
-  .phone iframe{display:block;width:100%;height:580px;border:0;border-radius:35px;background:#ece6da}
+  .phone .view{height:580px;border-radius:35px}
   .lblrow{text-align:center;margin-top:12px;font:400 11.5px "Geist Mono",monospace;color:var(--faint)}
+  .subs{max-width:1020px;margin:-30px auto 60px;padding:0 20px}
+  .subs ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .subs li{padding:9px 14px;border-radius:12px;font-size:14px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line)}
   @media (max-width:860px){.desk{display:none}.phone{margin-top:0}}
 </style>
 </head>
@@ -26,12 +30,23 @@
   <div class="desk">
     <div class="desk__bar"><i></i><i></i><i></i></div>
     <div class="desk__sub"><b>Your beans were still green on Monday</b>Lowtide Coffee, to you</div>
-    <iframe src="email-raw.html" title="Email on a computer"></iframe>
+    <div class="view"><img src="real/email/preview-desktop.jpg" alt="The sample email as it looks on a computer"></div>
   </div>
   <div>
-    <div class="phone"><iframe src="email-raw.html" title="Email on a phone"></iframe></div>
-    <p class="lblrow">Same email, on a phone</p>
+    <div class="phone"><div class="view"><img src="real/email/preview-mobile.jpg" alt="The same email as it looks on a phone"></div></div>
+    <p class="lblrow">Same email, on a phone. Scroll inside.</p>
   </div>
 </div>
+<div class="subs">
+  <span class="lbl">Subject lines it suggested</span>
+  <ul id="subs"></ul>
+  <p class="lblrow" style="text-align:left;margin-top:16px">Made by the email-builder skill from its example brief. These are its own preview pictures, taken in a browser, not in a real inbox.</p>
+</div>
+<script>
+fetch('real/email/subject-lines.txt').then((r) => r.text()).then((t) => {
+  const ul = document.getElementById('subs');
+  t.split('\n').filter((s) => /^\s*\d+[.)]\s/.test(s)).map((s) => s.replace(/^\s*\d+[.)]\s*/, '').replace(/\s*\[[^\]]*\]\s*$/, '').trim()).slice(0, 5).forEach((s) => { const li = document.createElement('li'); li.textContent = s; ul.append(li); });
+});
+</script>
 </body>
 </html>

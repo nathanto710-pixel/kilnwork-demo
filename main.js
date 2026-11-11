@@ -227,8 +227,8 @@
   /* hero chat loop (illustrative conversations, results are the real samples) */
   const chat = $('#chatBody'), chatTag = $('#chatTag');
   const convos = [
-    { tag: 'Video editing', ask: 'Turn this into a short video for Instagram', steps: ['Planning the scenes', 'Adding titles and motion', 'Rendering the video'], thumb: 'demos/lowtide-vox.jpg', title: 'Your video is ready', meta: '30 seconds, vertical' },
-    { tag: 'Carousels', ask: 'Make a carousel from this story', steps: ['Finding the hook', 'Laying out the slides', 'Writing the caption'], thumb: 'demos/img/latte.jpg', title: 'Your carousel is ready', meta: '5 slides and a caption' },
+    { tag: 'Video editing', ask: 'Turn this into a short video for Instagram', steps: ['Planning the scenes', 'Adding titles and motion', 'Rendering the video'], thumb: 'demos/real/video/explainer-916.jpg', title: 'Your video is ready', meta: '43 seconds, vertical' },
+    { tag: 'Carousels', ask: 'Make a carousel from this story', steps: ['Finding the hook', 'Laying out the slides', 'Writing the caption'], thumb: 'demos/real/carousel/slide-01.jpg', title: 'Your carousel is ready', meta: '6 slides and a caption' },
     { tag: 'Emails', ask: 'Write the launch email for our list', steps: ['Writing the copy', 'Designing the layout', 'Checking it on a phone'], thumb: 'demos/img/roast1.jpg', title: 'Your email is ready', meta: 'Looks right on phone and computer' },
   ];
   const el = (cls, html = '') => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; return d; };
@@ -354,7 +354,8 @@
     vt.finished.finally(() => { if (to) to.style.viewTransitionName = ''; modal.classList.remove('vt'); });
   };
   const openDemo = (key, title, from) => {
-    const url = `demos/${key}.html`;
+    const DOCS = ['script', 'content', 'research', 'linkedin', 'hooks', 'planner'];
+    const url = DOCS.includes(key) ? `demos/doc.html?set=${key}` : `demos/${key}.html`;
     lastFocus = document.activeElement; srcEl = from || null;
     frame.src = url; mOpen.href = url; mTitle.textContent = title;
     morph(srcEl, shell, () => {

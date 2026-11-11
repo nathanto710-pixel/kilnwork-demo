@@ -1,0 +1,10 @@
+SUBJECT LINE OPTIONS (the first is the suggested pick)
+
+1. Your beans were still green on Monday   [about 37 characters as read]
+2. {{first_name|Friend}}, when was your coffee roasted?   [about 40 characters as read]
+3. Roasted to order starts today   [about 29 characters as read]
+4. Check the bag in your kitchen   [about 29 characters as read]
+
+PREVIEW TEXT (paste into the tool's "preview text" box if it has one)
+
+We roast when you order, and it reaches your door within 7 days of roasting.
