@@ -265,6 +265,44 @@
     })();
   }
 
+  /* scroll story: How it works plays as you scroll (GSAP ScrollTrigger). Without GSAP the plain section stays. */
+  if (window.gsap && window.ScrollTrigger && !reduce && $('#story')) {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    document.documentElement.classList.add('has-st');
+    const plain = $('#how'); if (plain) plain.removeAttribute('id');
+    $('#story').id = 'how';
+    const ss = $$('.ss'), wide = () => innerWidth > 900;
+    const small = () => (wide() ? 1 : Math.min(1, ($('.story__stage').clientHeight - 10) / 440));
+    gsap.set(ss[0], { opacity: 1, y: 0 });
+    gsap.set('#stPhone', { scale: small });
+    gsap.set('#stMsg', { opacity: 1, clipPath: 'inset(0 100% 0 0 round 18px)' });
+    gsap.set('#stCheck', { scale: 0 });
+    gsap.set('.stt', { opacity: 0, y: 8 });
+    const t = gsap.timeline({ defaults: { ease: 'power2.out' }, scrollTrigger: { trigger: '.story', start: 'top top', end: '+=240%', pin: '.story__pin', scrub: 0.6, invalidateOnRefresh: true } });
+    t.fromTo('#stBar', { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 1 }, 0);
+    /* 1. the skill drops into the tray */
+    t.fromTo('#stChip', { y: -230, x: 70, rotation: 24, scale: 1.5, opacity: 0 }, { y: 0, x: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.2 }, 0.03);
+    t.to('#stCheck', { scale: 1, duration: 0.05, ease: 'back.out(3)' }, 0.23);
+    t.to('.st-tray', { boxShadow: 'inset 0 0 0 1px rgba(255,138,76,.6), 0 0 40px -6px rgba(255,138,76,.5)', duration: 0.06 }, 0.2);
+    /* 2. ask in plain words */
+    t.to(ss[0], { opacity: 0, y: -30, duration: 0.05, ease: 'power2.in' }, 0.3);
+    t.to(ss[1], { opacity: 1, y: 0, duration: 0.06 }, 0.34);
+    t.to('#stMsg', { clipPath: 'inset(0 0% 0 0 round 18px)', duration: 0.14, ease: 'none' }, 0.38);
+    t.to('.st-ticks', { opacity: 1, duration: 0.04 }, 0.52);
+    t.to('.stt', { opacity: 1, y: 0, duration: 0.04, stagger: 0.035 }, 0.53);
+    /* 3. results fan out */
+    t.to(ss[1], { opacity: 0, y: -30, duration: 0.05, ease: 'power2.in' }, 0.64);
+    t.to(ss[2], { opacity: 1, y: 0, duration: 0.06 }, 0.68);
+    t.to('#stPhone', { scale: () => small() * 0.86, opacity: 0.35, duration: 0.12 }, 0.68);
+    const spread = () => (wide() ? 150 : 104), k = () => (wide() ? 1 : 0.82);
+    [['#stO1', -1, -9], ['#stO2', 0, 0], ['#stO3', 1, 9]].forEach(([id, dir, rot], i) => {
+      t.fromTo(id, { opacity: 0, x: 0, y: 60, rotation: 0, scale: 0.5 }, { opacity: 1, x: () => dir * spread(), y: () => (dir === 0 ? -18 : 6), rotation: rot, scale: k, duration: 0.14, ease: 'back.out(1.4)' }, 0.72 + i * 0.03);
+    });
+    t.fromTo('#stBadge', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.07, ease: 'back.out(2)' }, 0.9);
+    addEventListener('load', () => ScrollTrigger.refresh());
+  }
+
   /* mobile menu */
   const burger = $('#burger'), menu = $('#menu');
   const setMenu = (open) => {
