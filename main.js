@@ -54,10 +54,10 @@
   /* pointer: cursor glow, card spotlight, magnetic buttons, tilt */
   if (fine && !reduce) {
     document.body.classList.add('has-pointer');
-    const root = document.documentElement;
+    const cg = $('.cursor-glow'); let cgx = 0, cgy = 0, cgq = false;
     addEventListener('pointermove', (e) => {
-      root.style.setProperty('--cx', e.clientX + 'px');
-      root.style.setProperty('--cy', e.clientY + 'px');
+      cgx = e.clientX; cgy = e.clientY;
+      if (!cgq) { cgq = true; requestAnimationFrame(() => { cgq = false; cg.style.transform = `translate3d(${cgx}px,${cgy}px,0)`; }); }
     }, { passive: true });
 
     $$('[data-spot]').forEach((el) => {
@@ -100,7 +100,7 @@
         float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
         float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
           return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
-        float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+        float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
         void main(){
           vec2 uv=gl_FragCoord.xy/r; vec2 q=uv; q.x=(q.x-.5)*r.x/r.y;
           vec2 w=vec2(fbm(q*1.6+vec2(0.,-t*.07)),fbm(q*1.6+vec2(5.2,t*.05)));
@@ -124,13 +124,14 @@
         const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
         const uR = gl.getUniformLocation(pr, 'r'), uT = gl.getUniformLocation(pr, 't'), uM = gl.getUniformLocation(pr, 'm');
         let seen = true, mx = 0, tx = 0;
-        const fit = () => { const k = 0.5; gc.width = Math.max(2, gc.clientWidth * k); gc.height = Math.max(2, gc.clientHeight * k); gl.viewport(0, 0, gc.width, gc.height); };
+        const fit = () => { const k = Math.min(0.4, 520 / Math.max(1, gc.clientWidth)); gc.width = Math.max(2, Math.round(gc.clientWidth * k)); gc.height = Math.max(2, Math.round(gc.clientHeight * k)); gl.viewport(0, 0, gc.width, gc.height); };
         new ResizeObserver(fit).observe(gc); fit();
         new IntersectionObserver(([e]) => { seen = e.isIntersecting; }).observe(gc);
         addEventListener('pointermove', (e) => { tx = e.clientX / innerWidth - 0.5; }, { passive: true });
         gc.closest('.hero').classList.add('has-glow');
+        let lastGl = 0;
         const frame = (ms) => {
-          if (seen) { mx += (tx - mx) * 0.04; gl.uniform2f(uR, gc.width, gc.height); gl.uniform1f(uT, ms / 1000); gl.uniform2f(uM, mx, 0); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+          if (seen && !document.hidden && ms - lastGl > 32) { lastGl = ms; mx += (tx - mx) * 0.08; gl.uniform2f(uR, gc.width, gc.height); gl.uniform1f(uT, ms / 1000); gl.uniform2f(uM, mx, 0); gl.drawArrays(gl.TRIANGLES, 0, 3); }
           requestAnimationFrame(frame);
         };
         requestAnimationFrame(frame);
@@ -144,10 +145,10 @@
     const ctx = cv.getContext('2d');
     let w, h, dpr, motes = [], visible = true;
     const size = () => {
-      dpr = Math.min(devicePixelRatio || 1, 2);
+      dpr = 1;
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.round(Math.min(110, w / 13));
+      const count = Math.round(Math.min(60, w / 22));
       motes = Array.from({ length: count }, () => spawn(true));
     };
     const spawn = (anywhere) => ({
@@ -158,19 +159,23 @@
       d: (Math.random() - 0.5) * 0.25,
       p: Math.random() * Math.PI * 2,
     });
+    /* one pre-rendered glowing dot, stamped with drawImage (canvas shadowBlur per dot is very slow) */
+    const dot = document.createElement('canvas'); dot.width = dot.height = 32;
+    { const dx = dot.getContext('2d'), g = dx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      g.addColorStop(0, 'rgba(255,214,170,1)'); g.addColorStop(0.25, 'rgba(255,150,80,.55)'); g.addColorStop(1, 'rgba(255,120,50,0)');
+      dx.fillStyle = g; dx.fillRect(0, 0, 32, 32); }
+    let lastDust = 0;
     const tick = (t) => {
-      if (visible) {
+      if (visible && t - lastDust > 30) {
+        lastDust = t;
         ctx.clearRect(0, 0, w, h);
         for (const m of motes) {
-          m.y -= m.v; m.x += m.d + Math.sin(t / 1600 + m.p) * 0.12;
+          m.y -= m.v * 2; m.x += (m.d + Math.sin(t / 1600 + m.p) * 0.12) * 2;
           if (m.y < -10) Object.assign(m, spawn(false));
           const life = Math.min(1, m.y / h * 1.6);
-          const a = (0.25 + 0.75 * (0.5 + 0.5 * Math.sin(t / 700 + m.p))) * life * (1 - m.y / h * 0.0) ;
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(255,${170 + m.r * 30 | 0},${110 + m.r * 40 | 0},${a * 0.8})`;
-          ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(255,140,70,.9)';
-          ctx.arc(m.x, m.y, m.r, 0, 6.283);
-          ctx.fill();
+          ctx.globalAlpha = (0.25 + 0.75 * (0.5 + 0.5 * Math.sin(t / 700 + m.p))) * life * 0.8;
+          const sz = m.r * 9;
+          ctx.drawImage(dot, m.x - sz / 2, m.y - sz / 2, sz, sz);
         }
       }
       requestAnimationFrame(tick);
