@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kilnwork - Skills for Claude</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A library of skills for Claude: video editing, coded emails, carousels, websites, scripts and competitor research.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Kilnwork home">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M11 1.5v19M1.5 11h19M4.3 4.3l13.4 13.4M17.7 4.3 4.3 17.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <span>Kilnwork</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#skills">Skills</a>
+    <a href="#how">How it works</a>
+    <a href="#inside">Inside a skill</a>
+  </nav>
+  <a class="btn btn--sm" href="#waitlist"><span>Get early access</span><i class="btn__ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>
+  <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <a href="#skills">Skills</a>
+  <a href="#how">How it works</a>
+  <a href="#inside">Inside a skill</a>
+  <a href="#waitlist">Get early access</a>
+</div>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero__dust" id="dust" aria-hidden="true"></canvas>
+  <div class="hero__beams" aria-hidden="true"></div>
+  <div class="hero__horizon" aria-hidden="true"></div>
+
+  <div class="hero__copy">
+    <span class="eyebrow reveal"><i class="dot"></i>Launching soon</span>
+    <h1 class="hero__title" data-split>Skills that make Claude <em>do the work.</em></h1>
+    <p class="hero__sub reveal" style="--d:.5s">No code to write. Tell Claude what you need in plain words and get back finished videos, emails, carousels, websites and scripts.</p>
+    <div class="hero__cta reveal" style="--d:.62s">
+      <a class="btn" href="#waitlist" data-magnetic><span>Get early access</span><i class="btn__ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>
+      <a class="btn btn--ghost" href="#skills"><span>Browse the skills</span></a>
+    </div>
+  </div>
+
+  <div class="hero__stage reveal" style="--d:.8s">
+    <div class="term" id="term" data-tilt>
+      <div class="term__core chat">
+        <div class="chat__bar">
+          <i class="chat__ava"><svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M11 1.500v19M1.500 11h19M4.300 4.300l13.400 13.400M17.700 4.300 4.300 17.700" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></i>
+          <b>Claude</b>
+          <span class="chat__tag" id="chatTag">Video editing</span>
+        </div>
+        <div class="chat__body" id="chatBody" aria-live="off"></div>
+        <div class="chat__input"><span>Ask for what you need...</span><i>↑</i></div>
+      </div>
+    </div>
+    <div class="chips" aria-hidden="true">
+    <div class="chip chip--a" aria-hidden="true"><i style="background-image:url(demos/img/latte.jpg)"></i>Carousel ready</div>
+    <div class="chip chip--b" aria-hidden="true"><i style="background-image:url(demos/img/roast1.jpg)"></i>Email ready</div>
+    <div class="chip chip--c" aria-hidden="true"><i style="background-image:url(demos/img/beans2.jpg)"></i>Script written</div>
+    <div class="chip chip--d" aria-hidden="true"><i style="background-image:url(demos/lowtide-vox.jpg)"></i>Video ready</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Video editing</span><b>✳</b><span>Coded emails</span><b>✳</b><span>Publishing</span><b>✳</b><span>Carousels</span><b>✳</b><span>Websites</span><b>✳</b><span>Content creation</span><b>✳</b><span>Script writing</span><b>✳</b><span>Competitor analysis</span><b>✳</b>
+    <span>Video editing</span><b>✳</b><span>Coded emails</span><b>✳</b><span>Publishing</span><b>✳</b><span>Carousels</span><b>✳</b><span>Websites</span><b>✳</b><span>Content creation</span><b>✳</b><span>Script writing</span><b>✳</b><span>Competitor analysis</span><b>✳</b>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="section__head">
+    <span class="eyebrow reveal">The library</span>
+    <h2 class="h2 reveal" style="--d:.08s">Eight crafts.<br><em>One assistant.</em></h2>
+    <p class="lede reveal" style="--d:.16s">Each skill is a packaged way of working: the steps, the rules and the tools Claude needs to finish a real job, not just talk about it.</p>
+  </div>
+
+  <div class="bento">
+
+    <!-- 1 VIDEO -->
+    <article class="card card--7 reveal" data-spot>
+      <div class="card__core">
+        <div class="art art--video">
+          <svg viewBox="0 0 560 230" fill="none" preserveAspectRatio="xMidYMid meet">
+            <g class="ruler" stroke="rgba(255,255,255,.18)" stroke-width="1">
+              <path d="M20 22h520"/>
+              <path d="M20 16v12M85 18v8M150 16v12M215 18v8M280 16v12M345 18v8M410 16v12M475 18v8M540 16v12"/>
+            </g>
+            <g class="clips">
+              <rect class="clip c1" x="20" y="46" width="150" height="42" rx="10"/>
+              <rect class="clip c2" x="176" y="46" width="96" height="42" rx="10"/>
+              <rect class="clip c3" x="278" y="46" width="182" height="42" rx="10"/>
+              <rect class="clip c4" x="466" y="46" width="74" height="42" rx="10"/>
+              <rect class="clip g1" x="64" y="98" width="120" height="30" rx="8"/>
+              <rect class="clip g2" x="300" y="98" width="88" height="30" rx="8"/>
+              <rect class="clip g3" x="410" y="98" width="110" height="30" rx="8"/>
+            </g>
+            <g class="wave" id="wave"></g>
+            <g class="playhead">
+              <path d="M0 8v212" stroke="var(--ember)" stroke-width="1.5"/>
+              <path d="M-7 4h14v8l-7 7-7-7z" fill="var(--ember)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="card__text">
+          <span class="tag">01 / Video</span>
+          <h3>Video editing</h3>
+          <p>Cut silences, sync captions to the transcript and layer motion graphics over talking-head footage.</p>
+          <ul class="pills"><li>Auto-cut</li><li>Captions</li><li>Motion graphics</li><li>9:16 + 16:9</li></ul>
+          <button class="demo-btn" type="button" data-demo="video" data-title="Video editing / motion graphics sample"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 EMAIL -->
+    <article class="card card--5 reveal" style="--d:.08s" data-spot>
+      <div class="card__core">
+        <div class="art art--email">
+          <div class="brief"><b>Your brief</b><span>New roast this week.</span><span>Tell the list, friendly tone.</span><span>Button: start my first bag.</span></div>
+          <div class="mail">
+            <div class="mail__top"><i></i><span></span></div>
+            <div class="mail__img"></div>
+            <div class="mail__l"></div><div class="mail__l mail__l--s"></div>
+            <div class="mail__btn"></div>
+          </div>
+        </div>
+        <div class="card__text">
+          <span class="tag">02 / Email</span>
+          <h3>Emails, designed and built</h3>
+          <p>Give it a short brief and get a finished, on-brand email that looks right on a phone, ready for your email platform.</p>
+          <ul class="pills"><li>Your brand</li><li>Phone friendly</li><li>Ready to send</li></ul>
+          <button class="demo-btn" type="button" data-demo="email" data-title="Emails / sample email"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 PUBLISH -->
+    <article class="card card--4 reveal" data-spot>
+      <div class="card__core">
+        <div class="art art--publish">
+          <svg viewBox="0 0 360 230" fill="none">
+            <path class="wire w1" d="M92 115C150 115 150 52 222 52"/>
+            <path class="wire w2" d="M92 115H222"/>
+            <path class="wire w3" d="M92 115C150 115 150 178 222 178"/>
+            <path class="pulse w1" d="M92 115C150 115 150 52 222 52"/>
+            <path class="pulse w2" d="M92 115H222"/>
+            <path class="pulse w3" d="M92 115C150 115 150 178 222 178"/>
+            <g class="core-node">
+              <circle cx="62" cy="115" r="30" fill="rgba(255,138,76,.1)" stroke="rgba(255,138,76,.55)"/>
+              <path d="M62 99v32M46 115h32M51 104l22 22M73 104l-22 22" stroke="var(--ember)" stroke-width="1.4" stroke-linecap="round"/>
+            </g>
+            <g class="dest" font-family="Geist, sans-serif" font-size="12.5" fill="rgba(244,243,239,.86)">
+              <rect x="222" y="34" width="118" height="36" rx="18"/><text x="281" y="56.500" text-anchor="middle">HubSpot</text>
+              <rect x="222" y="97" width="118" height="36" rx="18"/><text x="281" y="119.500" text-anchor="middle">GoHighLevel</text>
+              <rect x="222" y="160" width="118" height="36" rx="18"/><text x="281" y="182.500" text-anchor="middle" fill="rgba(244,243,239,.5)">+ more</text>
+            </g>
+          </svg>
+        </div>
+        <div class="card__text">
+          <span class="tag">03 / Publish</span>
+          <h3>Push to your platforms</h3>
+          <p>Send finished work straight into tools like HubSpot or GoHighLevel as drafts you approve.</p>
+          <span class="demo-note">Sample needs a connected account</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 4 CAROUSEL -->
+    <article class="card card--4 reveal" style="--d:.08s" data-spot>
+      <div class="card__core">
+        <div class="art art--carousel">
+          <div class="slide s1"><b>01</b><i></i><i></i></div>
+          <div class="slide s2"><b>02</b><i></i><i></i></div>
+          <div class="slide s3"><b>03</b><i></i><i></i></div>
+          <div class="slide s4"><b>04</b><i></i><i></i></div>
+        </div>
+        <div class="card__text">
+          <span class="tag">04 / Carousels</span>
+          <h3>Carousels</h3>
+          <p>Hook, story and call to action laid out slide by slide and exported at the right size.</p>
+          <button class="demo-btn" type="button" data-demo="carousel" data-title="Carousels / sample carousel"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5 WEBSITE -->
+    <article class="card card--4 reveal" style="--d:.16s" data-spot>
+      <div class="card__core">
+        <div class="art art--site">
+          <div class="browser">
+            <div class="browser__bar"><i></i><i></i><i></i><span></span></div>
+            <div class="browser__body">
+              <div class="bk bk--nav"></div>
+              <div class="bk bk--h"></div>
+              <div class="bk bk--p"></div>
+              <div class="bk bk--btn"></div>
+              <div class="bk-row"><div class="bk bk--c"></div><div class="bk bk--c"></div><div class="bk bk--c"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card__text">
+          <span class="tag">05 / Websites</span>
+          <h3>Websites</h3>
+          <p>Landing pages designed and built for you, with motion and a layout that works on a phone.</p>
+          <a class="demo-btn" href="#top"><span>You are looking at it</span><i>↑</i></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6 CONTENT -->
+    <article class="card card--5 reveal" data-spot>
+      <div class="card__core">
+        <div class="art art--content">
+          <div class="orbit">
+            <span class="orbit__ring r1"></span><span class="orbit__ring r2"></span>
+            <span class="orbit__core">idea</span>
+            <span class="sat sat1">Reel</span><span class="sat sat2">Post</span><span class="sat sat3">Thread</span><span class="sat sat4">Newsletter</span><span class="sat sat5">Short</span>
+          </div>
+        </div>
+        <div class="card__text">
+          <span class="tag">06 / Content</span>
+          <h3>Content creation</h3>
+          <p>One idea turned into the formats each channel needs, written in a voice you define.</p>
+          <ul class="pills"><li>Repurposing</li><li>Voice rules</li><li>Captions</li></ul>
+          <button class="demo-btn" type="button" data-demo="content" data-title="Content creation / sample content pack"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 7 SCRIPT -->
+    <article class="card card--3 reveal" style="--d:.08s" data-spot>
+      <div class="card__core">
+        <div class="art art--script">
+          <div class="page">
+            <span class="page__lbl">HOOK</span>
+            <p id="typeA"></p>
+            <span class="page__lbl">BEAT 1</span>
+            <i class="ln"></i><i class="ln ln--s"></i>
+            <span class="page__lbl">CTA</span>
+            <i class="ln ln--xs"></i>
+          </div>
+        </div>
+        <div class="card__text">
+          <span class="tag">07 / Scripts</span>
+          <h3>Script writing</h3>
+          <p>Hooks, beats and calls to action structured for video.</p>
+          <button class="demo-btn" type="button" data-demo="script" data-title="Script writing / sample script"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8 COMPETITOR -->
+    <article class="card card--4 reveal" style="--d:.16s" data-spot>
+      <div class="card__core">
+        <div class="art art--comp">
+          <div class="bars">
+            <div class="bar" style="--h:46%"><i></i><span>A</span></div>
+            <div class="bar" style="--h:72%"><i></i><span>B</span></div>
+            <div class="bar bar--you" style="--h:88%"><i></i><span>You</span></div>
+            <div class="bar" style="--h:58%"><i></i><span>C</span></div>
+            <div class="bar" style="--h:34%"><i></i><span>D</span></div>
+            <div class="scan"></div>
+          </div>
+        </div>
+        <div class="card__text">
+          <span class="tag">08 / Research</span>
+          <h3>Competitor analysis</h3>
+          <p>A structured read on what competitors publish, how they position and where the gaps are.</p>
+          <button class="demo-btn" type="button" data-demo="research" data-title="Competitor analysis / sample report"><span>View sample</span><i>↗</i></button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+  <p class="more reveal">More skills are on the way.</p>
+</section>
+
+<!-- HOW -->
+<section class="section how" id="how">
+  <div class="how__left">
+    <span class="eyebrow reveal">How it works</span>
+    <h2 class="h2 reveal" style="--d:.08s">Install it.<br>Ask for it.<br><em>Ship it.</em></h2>
+  </div>
+  <ol class="how__steps">
+    <li class="step reveal" data-spot>
+      <div class="step__core">
+        <span class="step__n">01</span>
+        <div>
+          <h3>Add the skill</h3>
+          <p>A one-time step. After that it is there every time you open Claude.</p>
+          <span class="cmd cmd--ok"><span>✓</span> Carousel skill added</span>
+        </div>
+      </div>
+    </li>
+    <li class="step reveal" data-spot>
+      <div class="step__core">
+        <span class="step__n">02</span>
+        <div>
+          <h3>Ask in plain words</h3>
+          <p>Describe the job. Claude picks up the matching skill and follows its steps.</p>
+          <span class="cmd cmd--say">"Make a carousel from this story"</span>
+        </div>
+      </div>
+    </li>
+    <li class="step reveal" data-spot>
+      <div class="step__core">
+        <span class="step__n">03</span>
+        <div>
+          <h3>Review and ship</h3>
+          <p>You get finished files to check, tweak and publish. You stay in charge of what goes out.</p>
+          <span class="cmd cmd--ok"><span>✓</span> 5 slides ready to post</span>
+        </div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- INSIDE -->
+<section class="section inside" id="inside">
+  <div class="inside__art reveal">
+    <div class="card" data-spot>
+      <div class="card__core box">
+        <div class="box__bar">What is in the box</div>
+        <ul>
+          <li><i>1</i><div><b>The playbook</b><span>How a pro would do the job, step by step</span></div></li>
+          <li><i>2</i><div><b>The tools</b><span>They do the repeatable parts the same way every time</span></div></li>
+          <li><i>3</i><div><b>The templates</b><span>Layouts you can restyle to your brand</span></div></li>
+          <li><i>4</i><div><b>The checks</b><span>They catch mistakes before you see the result</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="inside__copy">
+    <span class="eyebrow reveal">Inside a skill</span>
+    <h2 class="h2 reveal" style="--d:.08s">Not a prompt.<br><em>A whole process.</em></h2>
+    <p class="lede reveal" style="--d:.16s">A prompt tells Claude what you want. A skill gives it the method a professional would use, so the result looks finished, not improvised.</p>
+    <ul class="ticks">
+      <li class="reveal" style="--d:.2s"><i></i>Instructions Claude reads before it starts</li>
+      <li class="reveal" style="--d:.26s"><i></i>Built-in tools so results are consistent every time</li>
+      <li class="reveal" style="--d:.32s"><i></i>Templates and rules you can edit to fit your brand</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="cta" id="waitlist">
+  <div class="cta__shell reveal" data-spot>
+    <div class="cta__core">
+      <div class="cta__ray" aria-hidden="true"></div>
+      <span class="eyebrow"><i class="dot"></i>Early access</span>
+      <h2 class="h2">Be first in<br><em>when the doors open.</em></h2>
+      <p class="lede">Leave your email and we will let you know when the first skills go on sale.</p>
+      <form class="join" id="join" novalidate>
+        <label class="sr" for="email">Email address</label>
+        <input id="email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+        <button class="btn" type="submit" data-magnetic><span>Join the list</span><i class="btn__ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.500l7-7M4 2.500h5.500V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></button>
+      </form>
+      <p class="join__msg" id="joinMsg" role="status"></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__row">
+    <a class="nav__brand" href="#top"><svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M11 1.5v19M1.5 11h19M4.3 4.3l13.4 13.4M17.7 4.3 4.3 17.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span>Kilnwork</span></a>
+    <nav><a href="#skills">Skills</a><a href="#how">How it works</a><a href="#waitlist">Early access</a></nav>
+  </div>
+  <p class="foot__fine">Kilnwork is an independent product and is not affiliated with or endorsed by Anthropic. Claude is a trademark of Anthropic. HubSpot and GoHighLevel are trademarks of their owners.</p>
+  <div class="foot__word" aria-hidden="true">Kilnwork</div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal__shell">
+    <div class="modal__bar">
+      <span class="modal__title" id="modalTitle"></span>
+      <a class="modal__open" id="modalOpen" href="#" target="_blank" rel="noopener">Open in new tab</a>
+      <button class="modal__close" id="modalClose" type="button" aria-label="Close sample"><span></span><span></span></button>
+    </div>
+    <iframe class="modal__frame" id="modalFrame" title="Sample output"></iframe>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

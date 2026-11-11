@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lowtide Coffee - sample script</title>
+<link rel="stylesheet" href="demo.css">
+<style>
+  .head{position:relative;margin:-44px -24px 0;padding:70px 24px 34px;background:linear-gradient(180deg,rgba(10,10,12,.35),var(--bg)),url(img/pour3.jpg) center 40%/cover}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chips span{padding:6px 12px;border-radius:999px;font-size:12.5px;background:rgba(10,10,12,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+  .beat{display:grid;grid-template-columns:118px 1fr;gap:22px;align-items:stretch;padding:14px}
+  .shot{position:relative;border-radius:14px;aspect-ratio:9/16;background-size:cover;background-position:center;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+  .shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.75))}
+  .shot b{position:absolute;left:0;right:0;bottom:10px;z-index:1;text-align:center;font-size:11px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase;color:#fff}
+  .shot i{position:absolute;left:8px;top:8px;z-index:1;padding:3px 7px;border-radius:999px;background:rgba(0,0,0,.6);font:500 10px "Geist Mono",monospace;font-style:normal;color:#fff}
+  .body{padding:10px 10px 10px 0;display:flex;flex-direction:column;justify-content:center}
+  .say{margin-top:8px;font:400 25px/1.22 "Instrument Serif",serif;color:var(--ink)}
+  .see{margin-top:12px;font-size:14px;color:var(--muted)}
+  .see b{font:500 10px "Geist Mono",monospace;letter-spacing:.14em;color:var(--faint);margin-right:8px}
+  .hooks{display:grid;gap:8px;margin-top:12px}
+  .hooks span{padding:12px 16px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line);font:400 19px "Instrument Serif",serif}
+  @media (max-width:560px){.beat{grid-template-columns:84px 1fr;gap:14px}.say{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="note">Sample output. Lowtide Coffee is a fictional brand made up for this demo.</div>
+<main class="doc">
+  <div class="head">
+    <span class="lbl">Short video script / 30 seconds</span>
+    <h1 style="margin-top:10px">Your coffee is older than you <em>think.</em></h1>
+    <div class="chips"><span>Talking head, 9:16</span><span>Goal: first order</span><span>Viewer: buys supermarket beans</span></div>
+  </div>
+
+  <div class="panel beat"><div class="shot" style="background-image:url(img/bag1.jpg);background-position:36% center"><i>0:00</i><b>Check the bag</b></div>
+    <div class="body"><span class="lbl">Hook</span>
+    <p class="say">"Go and look at the bag of coffee in your kitchen. I will wait."</p>
+    <p class="see"><b>ON SCREEN</b>Presenter holds up a plain bag and turns it over.</p></div></div>
+
+  <div class="panel beat"><div class="shot" style="background-image:url(img/latte.jpg)"><i>0:04</i><b>No roast date</b></div>
+    <div class="body"><span class="lbl">Beat 1</span>
+    <p class="say">"There is a best before date. But there is no roast date. That is not an accident."</p>
+    <p class="see"><b>ON SCREEN</b>Close up of the date stamp. A circle draws around "best before".</p></div></div>
+
+  <div class="panel beat"><div class="shot" style="background-image:url(img/beans1.jpg)"><i>0:11</i><b>Flavour fades</b></div>
+    <div class="body"><span class="lbl">Beat 2</span>
+    <p class="say">"Coffee is a fresh product. The flavour you paid for starts fading once it leaves the roaster."</p>
+    <p class="see"><b>ON SCREEN</b>Slow push in on beans, simple falling bars graphic.</p></div></div>
+
+  <div class="panel beat"><div class="shot" style="background-image:url(img/roast3.jpg)"><i>0:19</i><b>7 days</b></div>
+    <div class="body"><span class="lbl">Turn</span>
+    <p class="say">"So we roast it when you order it, and it is at your door inside 7 days."</p>
+    <p class="see"><b>ON SCREEN</b>Roaster drum turning. Big number counts up to 7.</p></div></div>
+
+  <div class="panel beat"><div class="shot" style="background-image:url(img/cup.jpg)"><i>0:26</i><b>Link in bio</b></div>
+    <div class="body"><span class="lbl">Call to action</span>
+    <p class="say">"Try one bag. You will taste it in the first cup."</p>
+    <p class="see"><b>ON SCREEN</b>Steaming cup, logo, "Link in bio".</p></div></div>
+
+  <div class="panel"><span class="lbl">Three more hooks to test</span>
+    <div class="hooks"><span>"Nobody prints this date on your coffee."</span><span>"Your coffee had a birthday. You missed it."</span><span>"This is why cafe coffee tastes better than yours."</span></div>
+    <p style="margin-top:16px"><b>Check before filming:</b> the 7 day delivery promise must be true everywhere you ship.</p>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lowtide Coffee - sample video</title>
+<link rel="stylesheet" href="demo.css">
+<style>
+  .wrap{display:grid;grid-template-columns:auto 1fr;gap:54px;align-items:center;max-width:900px;margin:0 auto}
+  .phone{position:relative;height:min(640px,calc(100vh - 110px));aspect-ratio:9/18.4;padding:10px;border-radius:46px;background:#1a1a1d;box-shadow:0 0 0 1px rgba(255,255,255,.14),inset 0 0 0 2px #000,0 50px 110px -30px #000,0 0 150px -50px rgba(255,138,76,.7)}
+  .phone::before{content:"";position:absolute;left:50%;top:20px;width:30%;height:20px;transform:translateX(-50%);border-radius:999px;background:#000;z-index:2}
+  .phone video{display:block;width:100%;height:100%;object-fit:cover;border-radius:37px;background:#0b0b0b}
+  .side h1{font-size:clamp(30px,4vw,48px);line-height:1;letter-spacing:-.04em;font-weight:500}
+  .side h1 em{color:var(--ember-2)}
+  .side p{margin-top:16px;color:var(--muted);max-width:36ch}
+  .side ul{margin-top:22px;display:grid;gap:10px;list-style:none;font-size:15px}
+  .side li{display:flex;gap:10px;align-items:center}
+  .side li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember)}
+  .fine{margin-top:22px;font:400 11.5px/1.5 "Geist Mono",monospace;color:var(--faint);max-width:40ch}
+  @media (max-width:760px){.wrap{grid-template-columns:1fr;justify-items:center;gap:22px}.side{text-align:center}.side p,.fine{margin-inline:auto}.side ul{display:none}}
+</style>
+</head>
+<body>
+<div class="note">Sample output. Lowtide Coffee is a fictional brand made up for this demo.</div>
+<div class="center">
+  <div class="wrap">
+    <div class="phone"><video src="lowtide-vox.mp4" poster="lowtide-vox.jpg" autoplay muted loop playsinline></video></div>
+    <div class="side">
+      <span class="lbl">Explainer video / 30 seconds / 9:16</span>
+      <h1>A 30 second explainer, <em>made from a script.</em></h1>
+      <p>Six scenes of animated charts, photos and titles that explain one idea, rendered as a finished video file.</p>
+      <ul><li>Timeline, curve and bar chart that draw themselves</li><li>Day counter and step by step process</li><li>Real photos, one accent colour</li></ul>
+      <p class="fine">Free stock photos with motion graphics. Silent. The curve is an illustration, not measured data. This sample does not show cutting a talking-head clip.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
