@@ -270,6 +270,27 @@
     })();
   }
 
+  /* smooth scrolling with inertia on desktop (Lenis). Phones keep their native scroll. */
+  if (window.Lenis && fine && !reduce) {
+    const lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1 });
+    window.__lenis = lenis;
+    if (window.gsap && window.ScrollTrigger) {
+      lenis.on('scroll', () => ScrollTrigger.update());
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const loop = (time) => { lenis.raf(time); requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
+    }
+    $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      const target = id.length > 1 ? document.querySelector(id) : null;
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { duration: 1.4 });
+    }));
+  }
+
   /* scroll story: How it works plays as you scroll (GSAP ScrollTrigger). Without GSAP the plain section stays. */
   if (window.gsap && window.ScrollTrigger && !reduce && $('#story')) {
     gsap.registerPlugin(ScrollTrigger);
@@ -321,21 +342,38 @@
   /* sample viewer */
   const modal = $('#modal'), frame = $('#modalFrame'), mTitle = $('#modalTitle'), mOpen = $('#modalOpen');
   let lastFocus = null;
-  const openDemo = (key, title) => {
+  const shell = $('.modal__shell');
+  let srcEl = null;
+  const canVT = !!document.startViewTransition && !reduce;
+  /* the sample grows out of the card you clicked (View Transitions), with a plain fade where unsupported */
+  const morph = (from, to, change) => {
+    if (!canVT || !from) { change(); return; }
+    from.style.viewTransitionName = 'demo';
+    modal.classList.add('vt');
+    const vt = document.startViewTransition(() => { from.style.viewTransitionName = ''; change(); if (to) to.style.viewTransitionName = 'demo'; });
+    vt.finished.finally(() => { if (to) to.style.viewTransitionName = ''; modal.classList.remove('vt'); });
+  };
+  const openDemo = (key, title, from) => {
     const url = `demos/${key}.html`;
-    lastFocus = document.activeElement;
+    lastFocus = document.activeElement; srcEl = from || null;
     frame.src = url; mOpen.href = url; mTitle.textContent = title;
-    modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
-    document.documentElement.style.overflow = 'hidden';
+    morph(srcEl, shell, () => {
+      modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.style.overflow = 'hidden';
+    });
+    window.__lenis?.stop();
     $('#modalClose').focus();
   };
   const closeDemo = () => {
-    modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-    setTimeout(() => { if (!modal.classList.contains('is-open')) frame.removeAttribute('src'); }, 500);
-    lastFocus?.focus();
+    morph(shell, srcEl, () => {
+      modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+    });
+    window.__lenis?.start();
+    setTimeout(() => { if (!modal.classList.contains('is-open')) frame.removeAttribute('src'); }, 700);
+    lastFocus?.focus({ preventScroll: true });
   };
-  $$('button[data-demo]').forEach((b) => b.addEventListener('click', () => openDemo(b.dataset.demo, b.dataset.title)));
+  $$('button[data-demo]').forEach((b) => b.addEventListener('click', () => openDemo(b.dataset.demo, b.dataset.title, b.classList.contains('rc') ? b : b.closest('.card')?.querySelector('.art'))));
   $('#modalClose')?.addEventListener('click', closeDemo);
   modal?.addEventListener('click', (e) => { if (e.target === modal) closeDemo(); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeDemo(); });

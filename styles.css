@@ -401,6 +401,15 @@ body.has-pointer .cursor-glow{opacity:1}
   .st-phone{transform-origin:50% 50%}
 }
 
+/* LENIS + VIEW TRANSITIONS */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+.modal.vt,.modal.vt .modal__shell{transition:none!important}
+::view-transition-group(demo){animation-duration:.6s;animation-timing-function:cubic-bezier(.32,.72,0,1)}
+::view-transition-old(demo),::view-transition-new(demo){height:100%;width:100%;object-fit:cover;overflow:clip}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+
 /* DEMO BUTTONS + MODAL */
 .card__text{display:flex;flex-direction:column;align-items:flex-start;flex:1}
 .card__text>.demo-btn,.card__text>.demo-note{margin-top:auto}
